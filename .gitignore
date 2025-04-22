@@ -1,0 +1,7 @@
+*.out
+*.o
+test*/
+ftrace
+compile_commands.json
+objects/
+.cache
