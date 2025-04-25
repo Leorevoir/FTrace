@@ -6,12 +6,12 @@
 */
 
 #include "macro.h"
-#include <string.h>
+#include "parse.h"
 #include <stdio.h>
 
 static int usage(void)
 {
-    printf("USAGE: ftrace <command>\n");
+    printf("USAGE: ftrace <executable | .so | .a>\n");
     return SUCCESS;
 }
 
@@ -23,7 +23,10 @@ int parse_arguments(int argc, char **argv)
     if (strcmp(argv[1], "-help") == 0) {
         return usage();
     }
-    return ERROR;
+    if (!is_executable(argv[1])) {
+        return ERROR;
+    }
+    return SUCCESS;
 }
 
 int main(int argc, char **argv)
