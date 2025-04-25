@@ -2,8 +2,10 @@
 *.o
 test*/
 ftrace
+!ftrace/
 compile_commands.json
 objects/
 .cache
 .clang*
 .vscode
+coding-style-reports.log
