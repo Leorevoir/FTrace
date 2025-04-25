@@ -7,6 +7,7 @@
 
 #include "macro.h"
 #include "parse.h"
+#include "ftrace.h"
 #include <stdio.h>
 
 static int usage(void)
@@ -26,6 +27,7 @@ int parse_arguments(int argc, char **argv)
     if (!is_executable(argv[1])) {
         return ERROR;
     }
+    init_ftrace(argv[1]);
     return SUCCESS;
 }
 

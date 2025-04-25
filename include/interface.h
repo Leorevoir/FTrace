@@ -20,13 +20,18 @@ typedef struct symbol_s {
 } symbol_t;
 
 typedef struct nm_s {
-    struct {
-        unsigned char *buffer;
-        size_t size;
-    } file;
     bool is_64;
     symbol_t *symbols;
     size_t symbol_count;
 } nm_t;
+
+typedef struct file_s {
+    unsigned char *buffer;
+    size_t size;
+} file_t;
+
+typedef struct ftrace_s {
+    file_t file;
+} ftrace_t;
 
 #endif /* FTRACE_INTERFACE_H_ */

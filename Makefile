@@ -21,7 +21,10 @@ OBJ_DIR = objects
 
 NAME    = ftrace
 
-SRC     = $(wildcard $(SRC_DIR)/*.c)
+SRC     = $(wildcard $(SRC_DIR)/*.c) \
+		  $(wildcard $(SRC_DIR)/utils/*.c) \
+		  $(wildcard $(SRC_DIR)/ftrace/*.c)
+
 SRC_OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
 all: $(NAME)

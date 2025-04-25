@@ -2,6 +2,7 @@
 *.o
 test*/
 ftrace
+!ftrace/
 compile_commands.json
 objects/
 .cache
