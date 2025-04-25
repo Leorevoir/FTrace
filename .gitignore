@@ -6,3 +6,4 @@ ftrace
 compile_commands.json
 objects/
 .cache
+.clang*
