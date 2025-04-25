@@ -5,8 +5,8 @@
 ** parse.h
 */
 
-#ifndef PARSE_H_
-    #define PARSE_H_
+#ifndef FTRACE_PARSE_H_
+    #define FTRACE_PARSE_H_
 
     #include <stdbool.h>
     #include <string.h>
@@ -39,4 +39,8 @@ static inline _Bool is_executable(const char *__restrict filename)
     return is_executable_extension(filename);
 }
 
-#endif /* PARSE_H_ */
+bool get_elf_architecture(
+    const unsigned char *restrict buffer,
+    const size_t size, const char *restrict filename);
+
+#endif /* FTRACE_PARSE_H_ */
