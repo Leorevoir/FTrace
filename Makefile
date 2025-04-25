@@ -1,6 +1,6 @@
 ##
 ## EPITECH PROJECT, 2025
-## PSU-strace
+## PSU-ftrace
 ## File description:
 ## Makefile
 ##
@@ -77,4 +77,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all strace clean fclean re tests_run
+.PHONY: all ftrace clean fclean re tests_run

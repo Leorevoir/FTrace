@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2025
-** PSU-strace
+** PSU-ftrace
 ** File description:
-** strace_display.c
+** ftrace_display.c
 */
 
 /**
@@ -15,7 +15,7 @@
 #include <sys/ptrace.h>
 #include <string.h>
 
-static void display_rax_flag_s(strace_t *d)
+static void display_rax_flag_s(ftrace_t *d)
 {
     for (int i = 0; print_table[i].func != 0; ++i) {
         if (table[d->regs.orig_rax].return_type == print_table[i].type) {
@@ -25,48 +25,48 @@ static void display_rax_flag_s(strace_t *d)
     }
 }
 
-static void display_return(strace_t *strace)
+static void display_return(ftrace_t *ftrace)
 {
-    if (strace->regs.orig_rax == EXIT_SIGNAL) {
+    if (ftrace->regs.orig_rax == EXIT_SIGNAL) {
         fprintf(stderr, "?\n");
         return;
     }
-    if (strace->flag.s) {
-        display_rax_flag_s(strace);
+    if (ftrace->flag.s) {
+        display_rax_flag_s(ftrace);
         return;
     }
-    fprintf(stderr, "0x%llx\n", strace->regs.rax);
+    fprintf(stderr, "0x%llx\n", ftrace->regs.rax);
 }
 
-static void s_flag_switch_types(strace_t *strace, int types, size_t reg)
+static void s_flag_switch_types(ftrace_t *ftrace, int types, size_t reg)
 {
     for (int i = 0; print_table[i].func != 0; ++i) {
         if (types == print_table[i].type && types != STRING) {
-            fprintf(stderr, "%s", print_table[i].func(strace->pid, reg));
+            fprintf(stderr, "%s", print_table[i].func(ftrace->pid, reg));
             break;
         }
         if (types == print_table[i].type) {
-            fprintf(stderr, "\"%s\"", print_table[i].func(strace->pid, reg));
+            fprintf(stderr, "\"%s\"", print_table[i].func(ftrace->pid, reg));
             break;
         }
     }
 }
 
-static void display_s_flag(strace_t *strace)
+static void display_s_flag(ftrace_t *ftrace)
 {
     const size_t registers[] = {
-        strace->regs.rdi,
-        strace->regs.rsi,
-        strace->regs.rdx,
-        strace->regs.rcx,
-        strace->regs.r8,
-        strace->regs.r9
+        ftrace->regs.rdi,
+        ftrace->regs.rsi,
+        ftrace->regs.rdx,
+        ftrace->regs.rcx,
+        ftrace->regs.r8,
+        ftrace->regs.r9
     };
-    int *types = get_type_array(strace->regs.orig_rax);
+    int *types = get_type_array(ftrace->regs.orig_rax);
 
-    for (int i = 0; i != table[strace->regs.orig_rax].arg_count; ++i) {
-        s_flag_switch_types(strace, types[i], registers[i]);
-        if (i < table[strace->regs.orig_rax].arg_count - 1) {
+    for (int i = 0; i != table[ftrace->regs.orig_rax].arg_count; ++i) {
+        s_flag_switch_types(ftrace, types[i], registers[i]);
+        if (i < table[ftrace->regs.orig_rax].arg_count - 1) {
             fprintf(stderr, ", ");
         }
     }
@@ -74,58 +74,58 @@ static void display_s_flag(strace_t *strace)
     free(types);
 }
 
-static void display_args(strace_t *strace)
+static void display_args(ftrace_t *ftrace)
 {
     const size_t registers[] = {
-        strace->regs.rdi,
-        strace->regs.rsi,
-        strace->regs.rdx,
-        strace->regs.rcx,
-        strace->regs.r8,
-        strace->regs.r9
+        ftrace->regs.rdi,
+        ftrace->regs.rsi,
+        ftrace->regs.rdx,
+        ftrace->regs.rcx,
+        ftrace->regs.r8,
+        ftrace->regs.r9
     };
 
-    for (int i = 0; i != table[strace->regs.orig_rax].arg_count; ++i) {
+    for (int i = 0; i != table[ftrace->regs.orig_rax].arg_count; ++i) {
         fprintf(stderr, "0x%lx", registers[i]);
-        if (i != table[strace->regs.orig_rax].arg_count - 1) {
+        if (i != table[ftrace->regs.orig_rax].arg_count - 1) {
             fprintf(stderr, ", ");
         }
     }
     fprintf(stderr, ") = ");
 }
 
-static void display_syscalls(strace_t *strace)
+static void display_syscalls(ftrace_t *ftrace)
 {
-    fprintf(stderr, "%s(", table[strace->regs.orig_rax].name);
-    if (strace->regs.orig_rax == EXECVE_SIGNAL) {
+    fprintf(stderr, "%s(", table[ftrace->regs.orig_rax].name);
+    if (ftrace->regs.orig_rax == EXECVE_SIGNAL) {
         fprintf(stderr, "\"%s\", [\"%s\"], %p /* %d vars */) = ",
-            strace->prog, strace->prog, (void *)strace->env,
-            strace->env_count);
-        if (!strace->flag.s)
+            ftrace->prog, ftrace->prog, (void *)ftrace->env,
+            ftrace->env_count);
+        if (!ftrace->flag.s)
             fprintf(stderr, "0x0\n");
         else
             fprintf(stderr, "0\n");
         return;
     }
-    if (strace->flag.s) {
-        display_s_flag(strace);
+    if (ftrace->flag.s) {
+        display_s_flag(ftrace);
     } else {
-        display_args(strace);
+        display_args(ftrace);
     }
-    display_return(strace);
+    display_return(ftrace);
 }
 
-void strace_display_trace(strace_t *strace)
+void ftrace_display_trace(ftrace_t *ftrace)
 {
-    if ((ssize_t)strace->regs.orig_rax == -1) {
+    if ((ssize_t)ftrace->regs.orig_rax == -1) {
         return;
     }
-    if (strace->regs.orig_rax > MAX_SYSCALL) {
+    if (ftrace->regs.orig_rax > MAX_SYSCALL) {
         fprintf(stderr, "Unknown\n");
         return;
     }
-    display_syscalls(strace);
-    if (strace->regs.orig_rax == EXIT_SIGNAL) {
-        fprintf(stderr, "+++ exited with %lld +++\n", strace->regs.rdi);
+    display_syscalls(ftrace);
+    if (ftrace->regs.orig_rax == EXIT_SIGNAL) {
+        fprintf(stderr, "+++ exited with %lld +++\n", ftrace->regs.rdi);
     }
 }

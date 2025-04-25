@@ -26,16 +26,16 @@ typedef struct flag_s {
 } flag_t;
 
 /*
- * global strace struct
+ * global ftrace struct
  */
-typedef struct strace_s {
+typedef struct ftrace_s {
     pid_t pid;
     char **env;
     flag_t flag;
     char *prog;
     struct user_regs_struct regs;
     int env_count;
-} strace_t;
+} ftrace_t;
 
 /*
  * safer
@@ -46,18 +46,18 @@ void safe_fork(pid_t *pid);
 /*
  * main entry point
  */
-void strace_init(strace_t *strace, char **env);
+void ftrace_init(ftrace_t *ftrace, char **env);
 
 /*
  * ptrace and execvp program
  */
-void strace_execvp_prog(strace_t *strace);
+void ftrace_execvp_prog(ftrace_t *ftrace);
 
 /*
  * trace program and display syscalls
  */
-void strace_start_tracing(strace_t *strace);
-void strace_display_trace(strace_t *strace);
+void ftrace_start_tracing(ftrace_t *ftrace);
+void ftrace_display_trace(ftrace_t *ftrace);
 
 /*
  * tools

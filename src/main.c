@@ -18,7 +18,7 @@ static int usage(void)
 
 int parse_arguments(int argc, char **argv, char **env)
 {
-    strace_t strace = {0};
+    ftrace_t ftrace = {0};
     if (argc != 2) {
         return ERROR;
     }
@@ -28,9 +28,9 @@ int parse_arguments(int argc, char **argv, char **env)
     if (!is_executable(argv[1])) {
         return ERROR;
     }
-    strace.flag.s = true;
-    strace.prog = argv[1];
-    strace_init(&strace, env);
+    ftrace.flag.s = true;
+    ftrace.prog = argv[1];
+    ftrace_init(&ftrace, env);
     return SUCCESS;
 }
 

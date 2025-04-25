@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2025
-** PSU-strace
+** PSU-ftrace
 ** File description:
 ** free.c
 */
