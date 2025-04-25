@@ -6,6 +6,7 @@
 */
 
 #include "interface.h"
+#include "parse.h"
 #include "shared_lib.h"
 #include <stdio.h>
 
@@ -59,6 +60,6 @@ void init_ftrace(const char *restrict filename)
     ftrace_t ftrace = {0};
 
     ftrace_ctor(&ftrace, filename);
-    printf("%s\n", ftrace.file.buffer);
+    get_elf_architecture(ftrace.file.buffer, ftrace.file.size, filename);
     ftrace_dtor(&ftrace);
 }
