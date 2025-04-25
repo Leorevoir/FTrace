@@ -120,8 +120,6 @@
     #define     STRUCT_SCHED_ATTR_P     (127)
     #define     UNION__ATTR_P       (128)
 
-    // * Cree un tableau avec tout les entre et un pointeur sur fonction en fct du type en question
-
 typedef struct print_type_s {
     int type;
     char *(*func)(pid_t pid, size_t reg);
