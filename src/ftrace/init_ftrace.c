@@ -5,9 +5,9 @@
 ** init_ftrace.c
 */
 
-#include "interface.h"
 #include "parse.h"
 #include "shared_lib.h"
+#include "ftrace.h"
 #include <stdio.h>
 
 static size_t get_stream_size(FILE *stream)
@@ -60,6 +60,10 @@ void init_ftrace(const char *restrict filename)
     ftrace_t ftrace = {0};
 
     ftrace_ctor(&ftrace, filename);
-    get_elf_architecture(ftrace.file.buffer, ftrace.file.size, filename);
+    if (get_elf_architecture(ftrace.file.buffer, ftrace.file.size, filename)) {
+        get_nm_elf_64(&ftrace.nm, ftrace.file);
+    } else {
+        get_nm_elf_32(&ftrace.nm, ftrace.file);
+    }
     ftrace_dtor(&ftrace);
 }

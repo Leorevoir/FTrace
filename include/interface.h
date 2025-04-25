@@ -14,13 +14,11 @@
 
 typedef struct symbol_s {
     const Elf64_Sym *sym;
-    const Elf64_Addr value;
+    Elf64_Addr value;
     const char *__restrict name;
-    const char type;
 } symbol_t;
 
 typedef struct nm_s {
-    bool is_64;
     symbol_t *symbols;
     size_t symbol_count;
 } nm_t;
@@ -32,6 +30,7 @@ typedef struct file_s {
 
 typedef struct ftrace_s {
     file_t file;
+    nm_t nm;
 } ftrace_t;
 
 #endif /* FTRACE_INTERFACE_H_ */

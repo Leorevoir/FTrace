@@ -24,7 +24,8 @@ NAME    = ftrace
 SRC     = $(wildcard $(SRC_DIR)/*.c) \
 		  $(wildcard $(SRC_DIR)/utils/*.c) \
 		  $(wildcard $(SRC_DIR)/parse/*.c) \
-		  $(wildcard $(SRC_DIR)/ftrace/*.c)
+		  $(wildcard $(SRC_DIR)/ftrace/*.c) \
+		  $(wildcard $(SRC_DIR)/ftrace/nm/*.c)
 
 SRC_OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
