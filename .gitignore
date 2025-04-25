@@ -7,3 +7,5 @@ compile_commands.json
 objects/
 .cache
 .clang*
+coding-style-reports.log
+.vscode
