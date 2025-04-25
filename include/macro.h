@@ -11,4 +11,9 @@
     #define SUCCESS 0
     #define ERROR 84
 
+    #define START 0
+
+    #define STRACE_NO_ARG "strace: must have PROG [ARGS] or -p PID"
+    #define STRACE_TRY "Try 'strace -h' for more information."
+
 #endif /* MACRO_H_H */

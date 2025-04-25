@@ -1,12 +1,12 @@
 /*
 ** EPITECH PROJECT, 2025
-** Ftrace
+** PSU-strace
 ** File description:
-** ftrace.h
+** strace.h
 */
 
-#ifndef FTRACE_H_H
-    #define FTRACE_H_H
+#ifndef STRACE_H_
+    #define STRACE_H_
 
     #include "macro.h"
     #include "utils.h"
@@ -70,4 +70,4 @@ int *get_type_array(size_t id);
 int parse_arguments(int argc, char **argv, char **env);
 int usage(const char *prgrm);
 
-#endif /* FTRACE_H_H */
+#endif /* STRACE_H_ */
