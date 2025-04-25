@@ -19,6 +19,7 @@ static int usage(void)
 int parse_arguments(int argc, char **argv, char **env)
 {
     ftrace_t ftrace = {0};
+
     if (argc != 2) {
         return ERROR;
     }
