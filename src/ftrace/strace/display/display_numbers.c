@@ -5,8 +5,9 @@
 ** display_numbers
 */
 
-#include "print.h"
-#include "syscall.h"
+#include "sys/cdefs.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 char *register_to_signed(__attribute_maybe_unused__ pid_t pid, size_t reg)
 {

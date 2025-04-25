@@ -5,7 +5,7 @@
 ** fork_wait.c
 */
 
-#include "ftrace.h"
+#include "shared_lib.h"
 #include <unistd.h>
 #include <sys/wait.h>
 

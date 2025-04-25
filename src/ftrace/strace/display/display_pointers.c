@@ -6,11 +6,19 @@
 */
 
 #include "print.h"
-#include "syscall.h"
+#include "../strace.h"
+#include "shared_lib.h"
+#include <string.h>
+#include <stdlib.h>
+
+static void safe_free_char(char **ptr)
+{
+    safe_free((Object_t **)ptr);
+}
 
 char *register_to_string(pid_t pid, size_t reg)
 {
-    char __attribute__((cleanup(free_char)))*ptr = NULL;
+    char __attribute__((cleanup(safe_free_char)))*ptr = NULL;
     long int rv = 0;
     size_t size = 0;
     const size_t long_int_size = LONG_SIZE;

@@ -8,9 +8,6 @@
 #ifndef INCLUDED_PRINT_H
     #define INCLUDED_PRINT_H
 
-    #include "ftrace.h"
-    #include <stdlib.h>
-    #include <string.h>
     #include <sys/ptrace.h>
     #include <sys/stat.h>
     #include <sys/types.h>

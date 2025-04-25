@@ -6,7 +6,7 @@
 */
 
 #include <stddef.h>
-#include "syscall.h"
+#include "ftrace_syscall.h"
 
 int *get_type_array(size_t id)
 {
