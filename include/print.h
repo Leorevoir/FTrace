@@ -8,7 +8,7 @@
 #ifndef INCLUDED_PRINT_H
     #define INCLUDED_PRINT_H
 
-    #include "strace.h"
+    #include "ftrace.h"
     #include <stdlib.h>
     #include <string.h>
     #include <sys/ptrace.h>

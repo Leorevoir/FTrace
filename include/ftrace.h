@@ -63,11 +63,6 @@ void strace_display_trace(strace_t *strace);
  * tools
  */
 int *get_type_array(size_t id);
-
-/*
- * main
- */
-int parse_arguments(int argc, char **argv, char **env);
-int usage(const char *prgrm);
+void free_char(char **ptr);
 
 #endif /* FTRACE_H_H */

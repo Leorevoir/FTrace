@@ -8,6 +8,7 @@
 #include "macro.h"
 #include "parse.h"
 #include <stdio.h>
+#include "ftrace.h"
 
 static int usage(void)
 {
@@ -15,8 +16,9 @@ static int usage(void)
     return SUCCESS;
 }
 
-int parse_arguments(int argc, char **argv)
+int parse_arguments(int argc, char **argv, char **env)
 {
+    strace_t strace = {0};
     if (argc != 2) {
         return ERROR;
     }
@@ -26,10 +28,13 @@ int parse_arguments(int argc, char **argv)
     if (!is_executable(argv[1])) {
         return ERROR;
     }
+    strace.flag.s = true;
+    strace.prog = argv[1];
+    strace_init(&strace, env);
     return SUCCESS;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
-    return parse_arguments(argc, argv);
+    return parse_arguments(argc, argv, env);
 }

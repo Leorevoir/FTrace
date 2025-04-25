@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include "utils.h"
 
 /*
 * more aesthetics & useful than just a printf

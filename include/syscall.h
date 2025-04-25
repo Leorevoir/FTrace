@@ -9,7 +9,7 @@
     #define     SYSCALL_H_
 
     #include <stdlib.h>
-    #include "strace.h"
+    #include "ftrace.h"
 
     #define     NUM     1
     #define     STRING  2
