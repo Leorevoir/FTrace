@@ -55,7 +55,6 @@ mem_map_t **load_process_maps(pid_t pid)
     for (; fgets(line, sizeof(line), map_file); ++size) {
         map = realloc(map, sizeof(mem_map_t) * (long unsigned)(size + 1));
         map[size - 1] = init_mem_map(line);
-        printf("%s", line);
     }
     map[size] = NULL;
     fclose(map_file);

@@ -70,9 +70,6 @@ void init_ftrace(const char *restrict filename, char **env)
     } else {
         get_nm_elf_32(&ftrace.nm, ftrace.file);
     }
-    for (size_t i = 0; i < ftrace.nm.symbol_count; ++i) {
-        printf("syms: %lx %s\n", ftrace.nm.symbols[i].value, ftrace.nm.symbols[i].name);
-    }
     strace_run(&ftrace);
     ftrace_dtor(&ftrace);
 }
