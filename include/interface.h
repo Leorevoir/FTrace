@@ -51,4 +51,11 @@ typedef struct ftrace_s {
     strace_t strace;
 } ftrace_t;
 
+typedef struct mem_map_s {
+    unsigned long region[2];
+    char *perm;
+    unsigned long offset;
+    char *source_file;
+} mem_map_t;
+
 #endif /* FTRACE_INTERFACE_H_ */

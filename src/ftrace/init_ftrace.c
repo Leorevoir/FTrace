@@ -57,6 +57,7 @@ static void ftrace_ctor(ftrace_t *ftrace, const char *restrict filename,
 static void ftrace_dtor(ftrace_t *ftrace)
 {
     safe_free((Object_t **)&ftrace->file.buffer);
+    safe_free((Object_t **)&ftrace->nm.symbols);
 }
 
 void init_ftrace(const char *restrict filename, char **env)
@@ -69,6 +70,9 @@ void init_ftrace(const char *restrict filename, char **env)
     } else {
         get_nm_elf_32(&ftrace.nm, ftrace.file);
     }
-    strace_run(&ftrace.strace);
+    for (size_t i = 0; i < ftrace.nm.symbol_count; ++i) {
+        printf("syms: %lx %s\n", ftrace.nm.symbols[i].value, ftrace.nm.symbols[i].name);
+    }
+    strace_run(&ftrace);
     ftrace_dtor(&ftrace);
 }
