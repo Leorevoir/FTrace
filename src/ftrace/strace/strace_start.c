@@ -5,8 +5,8 @@
 ** strace_start.c
 */
 
-#include "strace.h"
 #include "parse.h"
+#include "strace.h"
 #include "shared_lib.h"
 #include <sys/ptrace.h>
 #include <sys/wait.h>
@@ -30,7 +30,10 @@ static void get_func_call(unsigned long rip, mem_map_t **map, ftrace_t *ftrace)
 {
     unsigned long sym = 0;
 
-    for (int i = 0; map[i]; ++i) {
+    if (map == NULL) {
+        return;
+    }
+    for (size_t i = 0; map[i]; ++i) {
         if (rip > map[i]->region[0] && rip < map[i]->region[1]) {
             sym = rip - map[i]->region[0] + map[i]->offset;
             check_sym(ftrace, sym, rip);
@@ -66,15 +69,28 @@ void loop(int stat_loc, ftrace_t *ftrace, mem_map_t **map)
     }
 }
 
+static void clean_map(mem_map_t ***map)
+{
+    if (!map || !*map) {
+        return;
+    }
+    for (size_t i = 0; map[i]; ++i) {
+        safe_free((Object_t **)&(*map)[i]->perm);
+        safe_free((Object_t **)&(*map)[i]->source_file);
+    }
+    free(map);
+}
+
 void strace_start_tracing(ftrace_t *ftrace)
 {
     int stat_loc = 0;
-    mem_map_t **map;
+    mem_map_t __attribute__((cleanup(clean_map)))**map = NULL;
 
     safe_waitpid(ftrace->strace.pid, &stat_loc, 0);
     if (ptrace(
         PTRACE_SETOPTIONS, ftrace->strace.pid, NULL, PTRACE_O_TRACEEXIT) == -1)
         perror("ptrace");
-    map = load_process_maps(ftrace->strace.pid);
     loop(stat_loc, ftrace, map);
 }
+
+// map = load_process_maps(ftrace->strace.pid);

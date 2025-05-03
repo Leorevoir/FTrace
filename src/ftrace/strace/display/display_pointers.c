@@ -10,15 +10,11 @@
 #include "shared_lib.h"
 #include <string.h>
 #include <stdlib.h>
-
-static void safe_free_char(char **ptr)
-{
-    safe_free((Object_t **)ptr);
-}
+#include <stdio.h>
 
 char *register_to_string(pid_t pid, size_t reg)
 {
-    char __attribute__((cleanup(safe_free_char)))*ptr = NULL;
+    char *ptr = NULL;
     long int rv = 0;
     size_t size = 0;
     const size_t long_int_size = LONG_SIZE;
@@ -79,6 +75,7 @@ char *register_to_stat(pid_t pid, size_t reg)
     snprintf(result, MAX_BUFFER,
         "{st_mode=%s|%04o, st_size=%ld, ...}", get_mode(statbuf->st_mode),
         statbuf->st_mode & (mode_t)~__S_IFMT, statbuf->st_size);
+    safe_free((Object_t **)&statbuf);
     return result;
 }
 

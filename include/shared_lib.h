@@ -33,4 +33,9 @@ void safe_fopen(const char *__restrict filename, FILE **stream_ptr);
 void safe_waitpid(pid_t pid, int *stat_loc, int options);
 void safe_fork(pid_t *pid);
 
+static inline void safe_free_char(char **ptr)
+{
+    safe_free((Object_t **)ptr);
+}
+
 #endif /* FTRACE_SHARED_H_ */
