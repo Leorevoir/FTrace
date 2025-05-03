@@ -7,6 +7,8 @@
 
 #include "interface.h"
 #include "parse.h"
+#include "shared_lib.h"
+#include <linux/limits.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,19 +16,23 @@
 
 static void free_array(char **array)
 {
-    for (int i = 0; array[i]; ++i)
-        free(array[i]);
+    for (size_t i = 0; array[i]; ++i) {
+        safe_free((Object_t **) &array[i]);
+    }
     free(array);
 }
 
 static mem_map_t *init_mem_map(char *content)
 {
     mem_map_t *map = malloc(sizeof(mem_map_t));
-    char **data = my_str_to_word_array(content, " \t");
+    char **data = NULL;
     char **region_comp = NULL;
 
-    if (data)
-        region_comp = my_str_to_word_array(data[0], "-");
+    memset(map, 0, sizeof(mem_map_t));
+    map->perm = NULL;
+    map->source_file = NULL;
+    data = my_str_to_word_array(content, " \t");
+    region_comp = my_str_to_word_array(data[0], "-");
     map->region[0] = strtoul(region_comp[0], NULL, 16);
     map->region[1] = strtoul(region_comp[1], NULL, 16);
     map->perm = strdup(data[1]);
@@ -39,24 +45,20 @@ static mem_map_t *init_mem_map(char *content)
 
 mem_map_t **load_process_maps(pid_t pid)
 {
-    char path[64];
-    FILE *map_file;
-    char line[256];
-    mem_map_t **map = malloc(sizeof(mem_map_t));
-    int size = 1;
+    char path[PATH_MAX] = {0};
+    char line[MAX_INPUT] = {0};
+    FILE *stream = NULL;
+    mem_map_t **map = malloc(sizeof(mem_map_t *));
+    size_t size = 1;
 
     map[0] = NULL;
     snprintf(path, sizeof(path), "/proc/%d/maps", pid);
-    map_file = fopen(path, "r");
-    if (!map_file) {
-        perror("Failed to open process maps");
-        return NULL;
-    }
-    for (; fgets(line, sizeof(line), map_file); ++size) {
-        map = realloc(map, sizeof(mem_map_t) * (long unsigned)(size + 1));
+    safe_fopen(path, &stream);
+    for (; fgets(line, sizeof(line), stream); ++size) {
+        map = realloc(map, sizeof(mem_map_t *) * (size_t)(size + 1));
         map[size - 1] = init_mem_map(line);
+        map[size] = NULL;
     }
-    map[size] = NULL;
-    fclose(map_file);
+    fclose(stream);
     return map;
 }
