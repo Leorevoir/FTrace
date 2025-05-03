@@ -50,6 +50,7 @@ static void get_file_content(const char *restrict f, file_t *file)
 static void ftrace_ctor(ftrace_t *ftrace, const char *restrict filename,
     char **env)
 {
+    ftrace->global_stack = NULL;
     get_file_content(filename, &ftrace->file);
     init_strace(&ftrace->strace, env, filename);
 }
