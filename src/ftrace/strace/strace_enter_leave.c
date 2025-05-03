@@ -7,6 +7,7 @@
 
 #include "interface.h"
 #include "strace.h"
+#include "macro.h"
 #include <stdio.h>
 
 /**
@@ -22,7 +23,8 @@ void check_sym(ftrace_t *ftrace, size_t sym, size_t addr, size_t sp)
     for (size_t j = 0; j < ftrace->nm.symbol_count; ++j) {
         if (ftrace->nm.symbols && sym == ftrace->nm.symbols[j].value) {
             f_name = ftrace->nm.symbols[j].name;
-            fprintf(stderr, "Entering function %s at 0x%lx\n", f_name, addr);
+            fprintf(stderr, "%sEntering function %s at 0x%lx%s\n",
+                GREEN, f_name, addr, RST);
             stack_push_call(&ftrace, addr, f_name, sp);
             break;
         }
@@ -63,8 +65,8 @@ void check_for_returns(ftrace_t *ftrace, size_t current_sp)
     while (gstack && current_sp > gstack->stack_ptr) {
         call = stack_pop_call(&ftrace);
         if (call) {
-            fprintf(stderr, "Exiting function %s\n",
-                call->func_name ? call->func_name : "unknown");
+            fprintf(stderr, "%sExiting function %s%s\n",
+                RED, call->func_name ? call->func_name : "unknown", RST);
             stack_free_call(&call);
         }
     }

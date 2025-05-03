@@ -136,10 +136,10 @@ void loop(int stat_loc, ftrace_t *ftrace, mem_map_t **map)
     while (!WIFEXITED(stat_loc)) {
         if (!fetch_registers(ftrace->strace.pid, &ftrace->strace.regs))
             break;
-        if (check_function_call_or_return(ftrace, map, &stat_loc, prev_sp)) {
+        if (check_function_call_or_return(ftrace, map, &stat_loc, prev_sp))
             break;
-        }
         prev_sp = ftrace->strace.regs.rsp;
+        strace_display_trace(&ftrace->strace);
         if (ptrace(PTRACE_SINGLESTEP, ftrace->strace.pid, NULL, 0) == ERR) {
             perror("ptrace");
             break;
