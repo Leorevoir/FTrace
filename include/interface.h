@@ -38,6 +38,7 @@ typedef struct strace_s {
     const char *prog;
     struct user_regs_struct regs;
     size_t env_count;
+    bool is_first;
 } strace_t;
 
 typedef struct file_s {
@@ -45,10 +46,25 @@ typedef struct file_s {
     size_t size;
 } file_t;
 
+typedef struct call_stack_s {
+    size_t addr;
+    size_t stack_ptr;
+    char *func_name;
+    struct call_stack_s *next;
+} call_stack_t;
+
 typedef struct ftrace_s {
     file_t file;
     nm_t nm;
     strace_t strace;
+    call_stack_t *global_stack;
 } ftrace_t;
+
+typedef struct mem_map_s {
+    unsigned long region[2];
+    char *perm;
+    unsigned long offset;
+    char *source_file;
+} mem_map_t;
 
 #endif /* FTRACE_INTERFACE_H_ */

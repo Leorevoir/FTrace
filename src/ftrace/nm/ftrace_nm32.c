@@ -61,5 +61,4 @@ void get_nm_elf_32(nm_t *nm, const file_t file)
     if (nm->symbol_count == 0) {
         raise_error("ftrace: no symbols");
     }
-    safe_free((Object_t **)nm->symbols);
 }

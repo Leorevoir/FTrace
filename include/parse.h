@@ -12,6 +12,7 @@
     #include <string.h>
     #include <sys/stat.h>
     #include <unistd.h>
+    #include "interface.h"
 
 static inline _Bool is_executable_extension(const char *__restrict filename)
 {
@@ -42,5 +43,7 @@ static inline _Bool is_executable(const char *__restrict filename)
 bool get_elf_architecture(
     const unsigned char *restrict buffer,
     const size_t size, const char *restrict filename);
+char **my_str_to_word_array(char const *str, char *separator);
+mem_map_t **load_process_maps(pid_t pid);
 
 #endif /* FTRACE_PARSE_H_ */

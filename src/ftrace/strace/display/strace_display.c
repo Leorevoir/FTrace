@@ -10,12 +10,16 @@
 #include <string.h>
 #include <stdio.h>
 #include "../strace.h"
+#include "shared_lib.h"
 
 static void display_rax_flag_s(strace_t *d)
 {
+    char __attribute__((cleanup(safe_free_char)))*tmp = NULL;
+
     for (int i = 0; print_table[i].func != 0; ++i) {
         if (table[d->regs.orig_rax].return_type == print_table[i].type) {
-            fprintf(stderr, "%s\n", print_table[i].func(d->pid, d->regs.rax));
+            tmp = print_table[i].func(d->pid, d->regs.rax);
+            fprintf(stderr, "%s\n", tmp);
             break;
         }
     }
@@ -34,15 +38,23 @@ static void display_return(strace_t *strace)
     fprintf(stderr, "0x%llx\n", strace->regs.rax);
 }
 
-static void s_flag_switch_types(strace_t *strace, int types, size_t reg)
+static void s_flag_switch_types(strace_t *strace, int type, size_t reg)
 {
-    for (int i = 0; print_table[i].func != 0; ++i) {
-        if (types == print_table[i].type && types != STRING) {
+    char __attribute__((cleanup(safe_free_char)))*tmp = NULL;
+
+    for (size_t i = 0; print_table[i].func != 0; ++i) {
+        if (type == print_table[i].type && (type == VOID_P || type == VOID)) {
             fprintf(stderr, "%s", print_table[i].func(strace->pid, reg));
             break;
         }
-        if (types == print_table[i].type) {
-            fprintf(stderr, "\"%s\"", print_table[i].func(strace->pid, reg));
+        if (type == print_table[i].type && type != STRING) {
+            tmp = print_table[i].func(strace->pid, reg);
+            fprintf(stderr, "%s", tmp);
+            break;
+        }
+        if (type == print_table[i].type) {
+            tmp = print_table[i].func(strace->pid, reg);
+            fprintf(stderr, "\"%s\"", tmp);
             break;
         }
     }

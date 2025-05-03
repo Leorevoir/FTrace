@@ -50,6 +50,7 @@ static void get_file_content(const char *restrict f, file_t *file)
 static void ftrace_ctor(ftrace_t *ftrace, const char *restrict filename,
     char **env)
 {
+    ftrace->global_stack = NULL;
     get_file_content(filename, &ftrace->file);
     init_strace(&ftrace->strace, env, filename);
 }
@@ -57,6 +58,7 @@ static void ftrace_ctor(ftrace_t *ftrace, const char *restrict filename,
 static void ftrace_dtor(ftrace_t *ftrace)
 {
     safe_free((Object_t **)&ftrace->file.buffer);
+    safe_free((Object_t **)&ftrace->nm.symbols);
 }
 
 void init_ftrace(const char *restrict filename, char **env)
@@ -69,6 +71,6 @@ void init_ftrace(const char *restrict filename, char **env)
     } else {
         get_nm_elf_32(&ftrace.nm, ftrace.file);
     }
-    strace_run(&ftrace.strace);
+    strace_run(&ftrace);
     ftrace_dtor(&ftrace);
 }

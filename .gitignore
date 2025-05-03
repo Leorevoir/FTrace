@@ -9,3 +9,5 @@ objects/
 .clang*
 .vscode
 coding-style-reports.log
+test
+otp

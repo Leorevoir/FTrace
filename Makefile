@@ -7,9 +7,9 @@
 
 CC         	= gcc
 
-CFLAGS   	= -I./include -std=gnu17 \
-          -Wall -Wextra -Werror -pedantic -Wconversion -g3 \
-		  -O3
+CFLAGS   	= -I./include -std=gnu17 -g3 \
+          -Wall -Wextra -Werror -pedantic -Wconversion
+		  # -O3
 
 LDFLAGS   	= -lelf
 
