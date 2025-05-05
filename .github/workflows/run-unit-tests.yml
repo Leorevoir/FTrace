@@ -63,12 +63,11 @@ jobs:
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y make gcc libcriterion-dev
 
-      - name: Build project
-        run:
-          make tests_run
-          if [ $? -ne 0 ]; then
+      - name: Run unit tests
+        run: |
+          if make tests_run; then
             echo "[❌] tests_run failed"
-            exit 1
+            exit 84
           else
             echo "[✅] tests_run passed"
           fi
