@@ -1,6 +1,5 @@
 *.out
 *.o
-test*/
 ftrace
 !ftrace/
 compile_commands.json
@@ -10,4 +9,9 @@ objects/
 .vscode
 coding-style-reports.log
 test
+!tests/
+unit_tests
 otp
+bin/
+coverage.txt
+elf_bin
