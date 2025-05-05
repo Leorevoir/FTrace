@@ -15,9 +15,10 @@ RST		   	= \033[0m
 
 CC         	= gcc
 
-CFLAGS   	= -I./include -std=gnu17 -g3 \
-          -Wall -Wextra -Werror -pedantic -Wconversion \
-		  -O3
+CFLAGS   	= -I./include -std=gnu17 -O3
+		  # -g3 \
+          # -Wall -Wextra -Werror -pedantic -Wconversion \
+		  # -O3
 
 ###############################################################################
 
