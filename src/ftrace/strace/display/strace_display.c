@@ -104,7 +104,7 @@ static void display_args(strace_t *strace)
 
 static void display_syscalls(strace_t *strace)
 {
-    fprintf(stderr, "%s(", table[strace->regs.orig_rax].name);
+    fprintf(stderr, "Syscall %s(", table[strace->regs.orig_rax].name);
     if (strace->regs.orig_rax == EXECVE_SIGNAL) {
         fprintf(stderr, "\"%s\", [\"%s\"], %p /* %ld vars */) = ",
             strace->prog, strace->prog, (void *)strace->env,
