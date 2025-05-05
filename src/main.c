@@ -9,7 +9,6 @@
 #include "parse.h"
 #include "ftrace.h"
 #include <stdio.h>
-#include "ftrace.h"
 
 static int usage(void)
 {
@@ -17,9 +16,24 @@ static int usage(void)
     return SUCCESS;
 }
 
+static flag_t get_flags(int argc, char **argv)
+{
+    flag_t flags = {0};
+
+    if (argc != 3) {
+        return flags;
+    }
+    for (int i = 0; i < argc; ++i) {
+        if (strcmp(argv[i], "-s") == 0) {
+            flags.s = true;
+        }
+    }
+    return flags;
+}
+
 int parse_arguments(int argc, char **argv, char **env)
 {
-    if (argc != 2) {
+    if (argc != 2 && argc != 3) {
         return ERROR;
     }
     if (strcmp(argv[1], "-help") == 0) {
@@ -28,7 +42,7 @@ int parse_arguments(int argc, char **argv, char **env)
     if (!is_executable(argv[1])) {
         return ERROR;
     }
-    init_ftrace(argv[1], env);
+    init_ftrace(argv[1], env, get_flags(argc, argv));
     return SUCCESS;
 }
 
