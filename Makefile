@@ -64,6 +64,7 @@ CFLAGS += $(COV_FLAGS)
 LDFLAGS += -lgcov
 
 tests_run: $(SRC_OBJ_NOMAIN) $(TESTS_OBJ)
+	@$(CC) $(TESTS_DIR)/elf_bin.c -o $(TESTS_DIR)/elf_bin
 	@$(CC) $(CFLAGS) $(LDFLAGS) -lcriterion -o $(UNIT_BIN) $^
 	@printf "$(GREEN)[✅] COMPILED: $(RST) $(ILC)$(UNIT_BIN)$(RST)\n"
 	@./$(UNIT_BIN)
@@ -88,7 +89,7 @@ clean:
 ###############################################################################
 
 fclean: clean
-	@rm -f $(NAME) vgcore* $(UNIT_BIN)
+	@rm -f $(NAME) vgcore* $(UNIT_BIN) $(TESTS_DIR)/elf_bin
 	@printf "$(RED)[❌] FCLEAN:   $(RST) Removed $(ILC)executables$(RST)\n"
 
 ###############################################################################

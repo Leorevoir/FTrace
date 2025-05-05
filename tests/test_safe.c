@@ -19,6 +19,15 @@ Test(safe_fclose, test_safe_fclose)
     cr_assert_null(file);
 }
 
+Test(safe_fclose, test_safe_fclose_null)
+{
+    FILE *file = NULL;
+
+    safe_fclose(&file);
+    cr_assert_null(file);
+    fclose(file);
+}
+
 Test(safe_fopen, test_safe_fopen)
 {
     FILE *file = NULL;
