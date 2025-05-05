@@ -61,16 +61,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y make gcc
+        run: sudo apt-get update && sudo apt-get install -y make gcc libcriterion-dev
 
-      - name: Build project
-        run:
-          make tests_run
-          if [ $? -ne 0 ]; then
-              echo "[❌] tests_run failed"
-              exit 1
+      - name: Run unit tests
+        run: |
+          if make tests_run; then
+            echo "[❌] tests_run failed"
+            exit 84
           else
-              echo "[✅] tests_run passed"
+            echo "[✅] tests_run passed"
           fi
 
       - name: Fclean the project
