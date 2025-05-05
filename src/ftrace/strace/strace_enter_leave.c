@@ -59,10 +59,10 @@ void get_func_call(size_t rip, mem_map_t **map, ftrace_t *ftrace,
  */
 void check_for_returns(ftrace_t *ftrace, size_t current_sp)
 {
-    call_stack_t *gstack = ftrace->global_stack;
+    call_stack_t **gstack = &ftrace->global_stack;
     call_stack_t *call = NULL;
 
-    while (gstack && current_sp > gstack->stack_ptr) {
+    while (*gstack && current_sp > (*gstack)->stack_ptr) {
         call = stack_pop_call(&ftrace);
         if (call) {
             fprintf(stderr, "%sExiting function %s%s\n",
