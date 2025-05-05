@@ -8,7 +8,6 @@
 #include "unit-tests.h"
 #include "interface.h"
 #include "shared_lib.h"
-#include <src/ftrace/strace/strace.h>
 
 void stack_push_call(ftrace_t **ftrace, size_t addr,
     const char *restrict func_name, size_t ptr);

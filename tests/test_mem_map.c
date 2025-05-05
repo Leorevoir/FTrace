@@ -5,7 +5,6 @@
 ** test_mem_map.c
 */
 
-#include "../src/ftrace/strace/strace.h"
 #include "unit-tests.h"
 #include "interface.h"
 #include <limits.h>
@@ -13,6 +12,7 @@
 #include <unistd.h>
 
 mem_map_t **load_process_maps(pid_t pid);
+void clean_map(mem_map_t ***map);
 
 Test(load_process_maps, test_load_process_map)
 {
