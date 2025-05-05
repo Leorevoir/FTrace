@@ -5,13 +5,17 @@
 ## Makefile
 ##
 
+GREEN      	= \033[1;32m
+RED        	= \033[1;31m
+ILC			= \033[3m
+ORANGE     	= \033[38;5;214m
+RST		   	= \033[0m
+
 CC         	= gcc
 
 CFLAGS   	= -I./include -std=gnu17 -g3 \
-          -Wall -Wextra -Werror -pedantic -Wconversion
-		  # -O3
-
-LDFLAGS   	= -lelf
+          -Wall -Wextra -Werror -pedantic -Wconversion \
+		  -O3
 
 SRC_DIR  	= src
 OBJ_DIR		= objects
@@ -26,19 +30,13 @@ SRC     = $(wildcard $(SRC_DIR)/*.c) \
 
 SRC_OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 
-PROGRAMS  	= ftrace
+NAME  	= ftrace
 
-GREEN      	= \033[1;32m
-RED        	= \033[1;31m
-ILC			= \033[3m
-ORANGE     	= \033[38;5;214m
-RST		   	= \033[0m
-
-all: $(PROGRAMS)
+all: $(NAME)
 
 ftrace: $(SRC_OBJ)
-	@$(CC) $(CFLAGS) -o $(PROGRAMS) $(SRC_OBJ) $(LDFLAGS)
-	@printf "$(GREEN)[✅] COMPILED: $(RST) $(ILC)$(PROGRAMS)$(RST)\n"
+	@$(CC) $(CFLAGS) -o $(NAME) $(SRC_OBJ)
+	@printf "$(GREEN)[✅] COMPILED: $(RST) $(ILC)$(NAME)$(RST)\n"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)
@@ -51,7 +49,7 @@ clean:
 	@printf "$(RED)[❌] CLEAN:    $(RST) Removed $(ILC)$(OBJ_DIR)$(RST)\n"
 
 fclean: clean
-	@rm -f $(PROGRAMS) vgcore*
+	@rm -f $(NAME) vgcore*
 	@printf "$(RED)[❌] FCLEAN:   $(RST) Removed $(ILC)executables$(RST)\n"
 
 re: fclean all
