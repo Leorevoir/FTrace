@@ -64,7 +64,7 @@ CFLAGS += $(COV_FLAGS)
 LDFLAGS += -lgcov
 
 tests_run: $(SRC_OBJ_NOMAIN) $(TESTS_OBJ)
-	@$(CC) $(TESTS_DIR)/elf_bin.c -o $(TESTS_DIR)/elf_bin
+	@$(CC) $(TESTS_DIR)/binary/elf_bin.c -o $(TESTS_DIR)/elf_bin
 	@$(CC) $(CFLAGS) $(LDFLAGS) -lcriterion -o $(UNIT_BIN) $^
 	@printf "$(GREEN)[✅] COMPILED: $(RST) $(ILC)$(UNIT_BIN)$(RST)\n"
 	@./$(UNIT_BIN)
