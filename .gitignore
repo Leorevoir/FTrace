@@ -14,4 +14,4 @@ unit_tests
 otp
 bin/
 coverage.txt
-elf_bin
+tests/elf_bin*

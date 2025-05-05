@@ -68,3 +68,12 @@ Test(safe_waitpid, test_safe_waitpid)
     safe_waitpid(pid, &status, 0);
     cr_assert_eq(WIFSIGNALED(status), 1);
 }
+
+Test(safe_free_char, test_safe_free_char)
+{
+    char *str = malloc(sizeof(char) * 10);
+
+    cr_assert_not_null(str);
+    safe_free_char(&str);
+    cr_assert_null(str);
+}
