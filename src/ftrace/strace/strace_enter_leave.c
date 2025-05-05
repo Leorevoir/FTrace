@@ -65,7 +65,7 @@ void check_for_returns(ftrace_t *ftrace, size_t current_sp)
     while (*gstack && current_sp > (*gstack)->stack_ptr) {
         call = stack_pop_call(&ftrace);
         if (call) {
-            fprintf(stderr, "%sExiting function %s%s\n",
+            fprintf(stderr, "%sLeaving function %s%s\n",
                 RED, call->func_name ? call->func_name : "unknown", RST);
             stack_free_call(&call);
         }
