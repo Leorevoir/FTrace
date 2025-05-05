@@ -65,7 +65,8 @@ jobs:
 
       - name: Run unit tests
         run: |
-          if make tests_run; then
+          make tests_run
+          if [ $? -ne 0 ]; then
             echo "[❌] tests_run failed"
             exit 84
           else

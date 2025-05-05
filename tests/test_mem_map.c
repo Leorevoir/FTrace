@@ -10,7 +10,6 @@
 #include "interface.h"
 #include <limits.h>
 #include "shared_lib.h"
-#include <src/ftrace/strace/strace.h>
 #include <unistd.h>
 
 mem_map_t **load_process_maps(pid_t pid);
