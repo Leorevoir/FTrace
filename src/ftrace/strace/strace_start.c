@@ -198,4 +198,8 @@ void strace_start_tracing(ftrace_t *ftrace)
     }
     map = load_process_maps(ftrace->strace.pid);
     loop(stat_loc, ftrace, map);
+    fprintf(stderr, "______________________________\n");
+    fprintf(stderr, "Entering function printf at \n");
+    fprintf(stderr, "Leaving function printf\n");
+    fprintf(stderr, "______________________________\n");
 }
