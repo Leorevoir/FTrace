@@ -63,10 +63,11 @@ static _Bool is_call_instruction(pid_t pid, size_t rip)
 }
 
 /**
-* @brief strace execvp program
-* @details try to execvp the given program & try to trace it
-*  | otherse raise an error
-*/
+ * @brief strace execvp program
+ * @details try to execvp the given program & try to trace it
+ *  | otherse raise an error
+ * @return void
+ */
 void strace_execvp_prog(strace_t *strace)
 {
     if (ptrace(PTRACE_TRACEME, 0, NULL, 0) == ERR) {
@@ -77,6 +78,11 @@ void strace_execvp_prog(strace_t *strace)
     }
 }
 
+/**
+ * @brief fetch registers
+ * @details as the name says
+ * @return false if error true if succeed
+ */
 static bool fetch_registers(pid_t pid, struct user_regs_struct *regs)
 {
     if (ptrace(PTRACE_GETREGS, pid, NULL, regs) == ERR) {
@@ -86,6 +92,12 @@ static bool fetch_registers(pid_t pid, struct user_regs_struct *regs)
     return true;
 }
 
+/**
+ * @brief check if the instruction at RIP is a RET instruction
+ * @details call check_for_returns if the current stack pointer
+ *  is greater than the previous one
+ * @return true if it's a RET instruction, false otherwise.
+ */
 static bool try_function_return(ftrace_t *ftrace, size_t prev_sp)
 {
     if (ftrace->strace.regs.rsp > prev_sp) {
@@ -94,6 +106,13 @@ static bool try_function_return(ftrace_t *ftrace, size_t prev_sp)
     return true;
 }
 
+/**
+ * @brief try to get the function call
+ * @details try to get the function call
+ *  if so, fetch the registers and get the function name
+ *  and function address
+ * @return true if it's a call instruction, false otherwise.
+ */
 static bool try_function_call(ftrace_t *ftrace, mem_map_t **m, int *stat_loc)
 {
     if (!is_call_instruction(ftrace->strace.pid, ftrace->strace.regs.rip))
@@ -112,6 +131,11 @@ static bool try_function_call(ftrace_t *ftrace, mem_map_t **m, int *stat_loc)
     return true;
 }
 
+/**
+ * @brief check function call or return
+ * @details check if the instruction at RIP is a CALL or RET instruction
+ * @return true if it's a call instruction, false otherwise.
+ */
 static bool check_function_call_or_return(ftrace_t *ftrace, mem_map_t **map,
     int *stat_loc, size_t prev_sp)
 {
@@ -129,6 +153,11 @@ static bool check_function_call_or_return(ftrace_t *ftrace, mem_map_t **map,
     return false;
 }
 
+/**
+ * @breif main loop of the strace
+ * @details wait for the child process to stop
+ * @return void
+ */
 void loop(int stat_loc, ftrace_t *ftrace, mem_map_t **map)
 {
     size_t prev_sp = 0;
@@ -145,10 +174,16 @@ void loop(int stat_loc, ftrace_t *ftrace, mem_map_t **map)
             break;
         }
         safe_waitpid(ftrace->strace.pid, &stat_loc, 0);
+        strace_handle_signals(&stat_loc, &ftrace->strace.pid);
     }
     clean_stack(&ftrace);
 }
 
+/**
+ * @brief start tracing
+ * @details strace entry point called by ftrace entry point
+ * @return void
+ */
 void strace_start_tracing(ftrace_t *ftrace)
 {
     int stat_loc = 0;

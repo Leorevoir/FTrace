@@ -35,6 +35,7 @@ void strace_display_trace(strace_t *strace);
 int *get_type_array(size_t id);
 
 void strace_run(ftrace_t *ftrace);
+bool strace_handle_signals(int *stat_loc, pid_t __attribute__((unused))*pid);
 
 /*
  * memory safe clean
