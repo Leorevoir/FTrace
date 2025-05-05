@@ -67,10 +67,10 @@ jobs:
         run:
           make tests_run
           if [ $? -ne 0 ]; then
-              echo "[❌] tests_run failed"
-              exit 1
+            echo "[❌] tests_run failed"
+            exit 1
           else
-              echo "[✅] tests_run passed"
+            echo "[✅] tests_run passed"
           fi
 
       - name: Fclean the project
