@@ -20,7 +20,15 @@ Test(is_number, test_is_not_number)
     cr_assert_eq(is_number("sad"), false);
 }
 
-Test(raise_error, exits_with_84)
+#include <criterion/redirect.h>
+
+static void redirect_all_output(void)
+{
+    cr_redirect_stdout();
+    cr_redirect_stderr();
+}
+
+Test(raise_error, exits_with_84, .init=redirect_all_output)
 {
     pid_t pid = 0;
     int status = 0;
