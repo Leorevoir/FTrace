@@ -11,11 +11,15 @@ ILC			= \033[3m
 ORANGE     	= \033[38;5;214m
 RST		   	= \033[0m
 
+###############################################################################
+
 CC         	= gcc
 
 CFLAGS   	= -I./include -std=gnu17 -g3 \
           -Wall -Wextra -Werror -pedantic -Wconversion \
 		  -O3
+
+###############################################################################
 
 SRC_DIR  	= src
 OBJ_DIR		= objects
@@ -43,15 +47,54 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -o $@ -c $<
 	@printf "$(ORANGE)[🚧] BUILDING: $(RST) $(ILC)$<$(RST)\n"
 
+###############################################################################
+
+COV_FLAGS  = -fprofile-arcs -ftest-coverage
+
+TESTS_DIR   = tests
+UNIT_BIN    = unit_tests
+
+SRC_NOMAIN  = $(filter-out $(SRC_DIR)/main.c, $(SRC))
+SRC_OBJ_NOMAIN = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC_NOMAIN))
+
+TESTS_SRC   = $(wildcard $(TESTS_DIR)/*.c)
+TESTS_OBJ   = $(patsubst $(TESTS_DIR)/%.c, $(OBJ_DIR)/tests/%.o, $(TESTS_SRC))
+
+CFLAGS += $(COV_FLAGS)
+LDFLAGS += -lgcov
+
+tests_run: $(SRC_OBJ_NOMAIN) $(TESTS_OBJ)
+	@$(CC) $(CFLAGS) $(LDFLAGS) -lcriterion -o $(UNIT_BIN) $^
+	@printf "$(GREEN)[✅] COMPILED: $(RST) $(ILC)$(UNIT_BIN)$(RST)\n"
+	@./$(UNIT_BIN)
+	@echo ""
+	@gcovr -r . --exclude tests/ > coverage.txt
+	@cat coverage.txt
+	@printf "$(GREEN)[🧪] TESTING:   $(RST) $(ILC)$(UNIT_BIN)$(RST)\n"
+
+$(OBJ_DIR)/tests/%.o: $(TESTS_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -o $@ -c $<
+	@printf "$(ORANGE)[🧪] TESTING:  $(RST) $(ILC)$<$(RST)\n"
+
+###############################################################################
+
 clean:
 	@rm -rf lib/$(OBJ_DIR)
 	@rm -rf $(OBJ_DIR)
+	@rm -f *.gcda *.gcno */*.gcda */*.gcno
 	@printf "$(RED)[❌] CLEAN:    $(RST) Removed $(ILC)$(OBJ_DIR)$(RST)\n"
 
+###############################################################################
+
 fclean: clean
-	@rm -f $(NAME) vgcore*
+	@rm -f $(NAME) vgcore* $(UNIT_BIN)
 	@printf "$(RED)[❌] FCLEAN:   $(RST) Removed $(ILC)executables$(RST)\n"
 
+###############################################################################
+
 re: fclean all
+
+###############################################################################
 
 .PHONY: all ftrace clean fclean re

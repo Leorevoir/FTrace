@@ -25,14 +25,14 @@ jobs:
         run: |
           ./coding-style.sh .
           if [ -s coding-style-reports.log ]; then
-            echo "❌ Coding style errors found!"
+            echo "[❌] Coding style errors found!"
             cat coding-style-reports.log
             exit 84
           else
-            echo "✅ No coding style errors detected!"
+            echo "[✅] No coding style errors detected!"
           fi
 
-  unit-test:
+  run-project:
     needs: check_coding_style
     runs-on: ubuntu-latest
 
@@ -48,6 +48,30 @@ jobs:
 
       - name: Run the project
         run: ./$PROGRAM_NAME -help
+
+      - name: Fclean the project
+        run: make fclean
+
+  run-unit-tests:
+    needs: run-project
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y make gcc
+
+      - name: Build project
+        run:
+          make tests_run
+          if [ $? -ne 0 ]; then
+              echo "[❌] tests_run failed"
+              exit 1
+          else
+              echo "[✅] tests_run passed"
+          fi
 
       - name: Fclean the project
         run: make fclean
