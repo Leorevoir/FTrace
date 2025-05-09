@@ -15,3 +15,4 @@ otp
 bin/
 coverage.txt
 tests/elf_bin*
+__pycache__
