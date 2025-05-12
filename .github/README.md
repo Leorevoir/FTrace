@@ -20,7 +20,7 @@ This project was developed in the `middle` of my **second year**.<br>
 **Ftrace** is a program that allows an `executable` to be `analyzed` during `execution`.<br>
 It will allow you to generate a **call-graph**, which will explain a program's `execution flow` in **detail**.
 
-![screenshot](./.github/assets/example.png")
+![screenshot](./assets/example.png)
 
 ---
 
