@@ -1,13 +1,26 @@
-<h1 align="center">
+<h2 align="center">
    Programming System Unix - 2025<br>
   <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="600px"/>
   <br>
-</h1>
+</h2>
 
-<p align="center">
-  ftrace<br>
-    analyzing executables
-</p>
+<h4 align="center">
+    Ftrace<br>analyzing executables<br>
+</h4>
+
+---
+
+**Ftrace** is Epitech's **final project** for the `Unix Programming System` (**PSU**) module.<br>
+This project was developed in the `middle` of my **second year**.<br>
+
+---
+
+## Description
+
+**Ftrace** is a program that allows an `executable` to be `analyzed` during `execution`.<br>
+It will allow you to generate a **call-graph**, which will explain a program's `execution flow` in **detail**.
+
+![screenshot](./assets/example.png")
 
 ---
 
@@ -15,7 +28,7 @@
 
 ### Dependencies
 
-Install dependencies with `nix` or manually install `lib-elf`, `gcc`, `make`.
+Install dependencies with `nix` or manually install `gcc`, `make`.
 
 ```bash
 nix develop
@@ -27,10 +40,18 @@ nix develop
 make
 ```
 
+---
+
+## Usage
+
 ### Run
 
 ```bash
 ftrace -help
+```
+
+```bash
+ftrace <binary_executable>
 ```
 
 ---

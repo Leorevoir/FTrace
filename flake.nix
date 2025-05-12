@@ -18,16 +18,13 @@
             gnumake
             gcc
             bear
-            libelf
           ];
           shellHook = ''
             export PKG_CONFIG_PATH=${pkgs.lib.makeLibraryPath [
             criterion
-            libelf
             ]}:$PKG_CONFIG_PATH
             export LD_LIBRARY_PATH=${pkgs.lib.makeLibraryPath [
             criterion
-            libelf
             ]}:$LD_LIBRARY_PATH
           '';
         };
