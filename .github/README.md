@@ -10,15 +10,15 @@
 
 ---
 
-**Ftrace** is Epitech's `final project` for the `Unix Programming System` (PSU) module.<br>
-This project was developed in the **middle** of my `second year`.<br>
+**Ftrace** is Epitech's **final project** for the **Unix Programming System** (`PSU`) module.<br>
+This project was developed in the `middle` of my **second year**.<br>
 
 ---
 
 ## Description
 
-**Ftrace** is a program that allows an executable to be analyzed during execution.<br>
-It will allow you to generate a `call-graph`, which will explain a program's `execution flow` in **detail**.
+**Ftrace** is a program that allows an `executable` to be `analyzed` during `execution`.<br>
+It will allow you to generate a **call-graph**, which will explain a program's `execution flow` in **detail**.
 
 ![screenshot](./assets/example.png")
 
