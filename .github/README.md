@@ -4,9 +4,8 @@
   <br>
 </h1>
 
-<h2 align="center">Ftrace<br>
-    analyzing executables
-</h2>
+<h2 align="center">Ftrace</h2>
+<h3 align="center">analyzing executables</h3>
 
 ---
 
