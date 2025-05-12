@@ -10,7 +10,7 @@
 
 ---
 
-**Ftrace** is Epitech's **final project** for the **Unix Programming System** (`PSU`) module.<br>
+**Ftrace** is Epitech's **final project** for the `Unix Programming System` (**PSU**) module.<br>
 This project was developed in the `middle` of my **second year**.<br>
 
 ---
