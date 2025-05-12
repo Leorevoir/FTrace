@@ -1,11 +1,12 @@
-<h1 align="center">
+<h2 align="center">
    Programming System Unix - 2025<br>
   <img src="https://raw.githubusercontent.com/catppuccin/catppuccin/main/assets/palette/macchiato.png" width="600px"/>
   <br>
-</h1>
+</h2>
 
-<h2 align="center">Ftrace</h2>
-<h3 align="center">analyzing executables</h3>
+<h6 align="center">
+    Ftrace<br>analyzing executables<br>
+</h6>
 
 ---
 
